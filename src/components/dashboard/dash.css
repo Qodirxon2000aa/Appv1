@@ -1,0 +1,64 @@
+/* Barcha sahifaga tegishli container */
+.dash-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    padding: 20px;
+  }
+  
+  /* Sarlavha */
+  .dash-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Tugmalar joylashuvi */
+  .dash-buttons {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Tugmalar */
+  .dash-button {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Tugma ranglari */
+  .blue {
+    background-color: #3b82f6;
+  }
+  .blue:hover {
+    background-color: #2563eb;
+  }
+  
+  .green {
+    background-color: #10b981;
+  }
+  .green:hover {
+    background-color: #059669;
+  }
+  
+  .red {
+    background-color: #ef4444;
+  }
+  .red:hover {
+    background-color: #dc2626;
+  }
+  

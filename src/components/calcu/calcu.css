@@ -1,0 +1,104 @@
+.personal-container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .personal-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .personal-table th, 
+  .personal-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .personal-table th {
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .column-data {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .column-data span {
+    background: #eef;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  /* === RESPONSIVE DESIGN (Mobil uchun zamonaviy stil) === */
+  @media (max-width: 768px) {
+    .personal-container {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .personal-table {
+      display: none; /* Jadvalni yashiramiz, faqat kartalar ko'rinadi */
+    }
+  
+    .mobile-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .mobile-card {
+      background: white;
+      padding: 55px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-left: 5px solid #007bff;
+    }
+  
+    .mobile-card span {
+      font-size: 14px;
+      color: #333;
+    }
+  
+    .mobile-card .label {
+      font-weight: bold;
+      color: #007bff;
+    }
+  
+    .delete-btn {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+      width: fit-content;
+      align-self: flex-end;
+    }
+  
+    .delete-btn:hover {
+      background: #cc0000;
+    }
+  }
+  

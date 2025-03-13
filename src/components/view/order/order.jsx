@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaUserCheck, FaMapMarkerAlt, FaTools, FaCalendarAlt, FaPaperPlane } from "react-icons/fa"; // React Icons
 import "./order.css";
 
 const Order = () => {
@@ -61,7 +62,7 @@ const Order = () => {
       <h1>Ishga Yuborish</h1>
 
       <div className="order-section">
-        <h3>Ishchilarni tanlang</h3>
+        <h3><FaUserCheck style={{ marginRight: "8px" }} /> Ishchilarni tanlang</h3>
         <br />
         {ishchilar.map(ishchi => (
           <label key={ishchi.id}>
@@ -75,8 +76,9 @@ const Order = () => {
           </label>
         ))}
       </div>
+
       <div className="order-section">
-        <h3>Obyektni tanlang</h3>
+        <h3><FaMapMarkerAlt style={{ marginRight: "8px" }} /> Obyektni tanlang</h3>
         <select value={selectedObyekt} onChange={(e) => setSelectedObyekt(e.target.value)}>
           <option value="">Obyektni tanlang</option>
           {obyektlar.map(obj => (
@@ -86,7 +88,7 @@ const Order = () => {
       </div>
 
       <div className="order-section">
-        <h3>Ish turini tanlang</h3>
+        <h3><FaTools style={{ marginRight: "8px" }} /> Ish turini tanlang</h3>
         <select value={selectedIshTuri} onChange={(e) => setSelectedIshTuri(e.target.value)}>
           <option value="">Ish turini tanlang</option>
           {ishTurlari.map(tur => (
@@ -96,7 +98,7 @@ const Order = () => {
       </div>
 
       <div className="order-section">
-        <h3>Sana tanlang</h3>
+        <h3><FaCalendarAlt style={{ marginRight: "8px" }} /> Sana tanlang</h3>
         <input
           type="date"
           value={sana}
@@ -105,7 +107,9 @@ const Order = () => {
         />
       </div>
 
-      <button onClick={sendOrder} className="order-btn">Yuborish</button>
+      <button onClick={sendOrder} className="order-btn">
+        <FaPaperPlane style={{ marginRight: "8px" }} /> Yuborish
+      </button>
     </div>
   );
 };

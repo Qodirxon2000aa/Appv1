@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./object.css"; // Yangi styling fayl nomi
+import "./object.css"; // Styling fayl
+import { FaSave, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
 const API_URL = "https://66a6197023b29e17a1a1ba9a.mockapi.io/Object";
 
@@ -71,7 +72,11 @@ const Object = () => {
         <input type="text" name="name" placeholder="Obyekt nomi" value={newItem.name} onChange={handleChange} />
         <input type="text" name="zona" placeholder="Ish zonasi" value={newItem.zona} onChange={handleChange} />
         <input type="text" name="mablag" placeholder="Mablag‘ (UZS) yoki 'Olinmagan'" value={newItem.mablag} onChange={handleChange} />
-        <button onClick={handleSave} className="save-btn">{editingId ? "💾 Saqlash" : "➕ Qo‘shish"}</button>
+        
+        <button onClick={handleSave} className="save-btn">
+          {editingId ? <FaSave style={{ marginRight: "8px" }} /> : <FaPlus style={{ marginRight: "8px" }} />} 
+          {editingId ? "Saqlash" : "Qo‘shish"}
+        </button>
       </div>
 
       <table className="table">
@@ -92,8 +97,12 @@ const Object = () => {
               <td>{item.zona}</td>
               <td>{item.mablag}</td>
               <td>
-                <button className="edit-btn" onClick={() => handleEdit(item)}>✏️</button>
-                <button className="delete-btn" onClick={() => handleDelete(item.id)}>🗑️</button>
+                <button className="edit-btn" onClick={() => handleEdit(item)}>
+                  <FaEdit />
+                </button>
+                <button className="delete-btn" onClick={() => handleDelete(item.id)}>
+                  <FaTrash />
+                </button>
               </td>
             </tr>
           ))}

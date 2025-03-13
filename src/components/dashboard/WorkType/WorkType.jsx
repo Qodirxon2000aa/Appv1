@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./WorkType.css";
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa"; // React Icons
 
 const API_URL = "https://67bc973ced4861e07b3b2ccc.mockapi.io/Worker";
 
@@ -55,6 +56,7 @@ const WorkType = () => {
         <input type="text" name="name" placeholder="Ish turi" value={newWorkType.name} onChange={handleChange} />
         <input type="text" name="price" placeholder="Kunlik ish haqi (UZS)" value={newWorkType.price} onChange={handleChange} />
         <button onClick={addWorkType} className="add-btn">
+          {editingId ? <FaEdit style={{ marginRight: "8px" }} /> : <FaPlus style={{ marginRight: "8px" }} />}
           {editingId ? "Tahrirlash" : "Qo‘shish"}
         </button>
       </div>
@@ -75,8 +77,12 @@ const WorkType = () => {
               <td>{workType.name}</td>
               <td>{workType.price} UZS</td>
               <td>
-                <button className="edit-btn" onClick={() => editWorkType(workType.id)}>✏️</button>
-                <button className="delete-btn" onClick={() => deleteWorkType(workType.id)}>🗑️</button>
+                <button className="edit-btn" onClick={() => editWorkType(workType.id)}>
+                  <FaEdit />
+                </button>
+                <button className="delete-btn" onClick={() => deleteWorkType(workType.id)}>
+                  <FaTrash />
+                </button>
               </td>
             </tr>
           ))}

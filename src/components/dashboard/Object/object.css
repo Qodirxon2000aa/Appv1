@@ -57,9 +57,12 @@
 
   .edit-btn {
     color: #28a745;
+    width: 78%;
   }
 
   .delete-btn {
     color: #dc3545;
+    width: 100%;
+    margin-top: 5px;
   }
 }

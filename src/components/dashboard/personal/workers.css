@@ -107,9 +107,10 @@
 }
 
 .edit-btn {
-  width: 50px;
+  width: 40px;
   background-color: #facc15;
   color: #1e293b;
+
 }
 
 .edit-btn:hover {
@@ -119,6 +120,7 @@
 .delete-btn {
   background-color: #ef4444;
   color: white;
+  width: 50px;
 }
 
 .delete-btn:hover {

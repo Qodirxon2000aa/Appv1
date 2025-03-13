@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./workers.css";
+import { FaSave, FaPlus, FaEdit, FaTrash } from "react-icons/fa"; // React Icons
 
 const API_URL = "https://66a6197023b29e17a1a1ba9a.mockapi.io/Personal";
 
@@ -9,7 +10,6 @@ const Personal = () => {
   const [newIshchi, setNewIshchi] = useState({ name: "", lavozim: "" });
   const [editingId, setEditingId] = useState(null);
 
-  // Ma'lumotlarni olish
   useEffect(() => {
     fetchIshchilar();
   }, []);
@@ -23,13 +23,11 @@ const Personal = () => {
     }
   };
 
-  // Inputlarni boshqarish
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewIshchi((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Ishchini qo'shish yoki tahrirlash
   const handleSave = async () => {
     if (!newIshchi.name || !newIshchi.lavozim) {
       alert("Iltimos, barcha maydonlarni to‘ldiring!");
@@ -51,7 +49,6 @@ const Personal = () => {
     }
   };
 
-  // Ishchini o‘chirish
   const handleDelete = async (id) => {
     if (!window.confirm("Haqiqatan ham o‘chirmoqchimisiz?")) return;
     try {
@@ -62,7 +59,6 @@ const Personal = () => {
     }
   };
 
-  // Tahrirlash rejimi
   const handleEdit = (ishchi) => {
     setNewIshchi({ name: ishchi.name, lavozim: ishchi.lavozim });
     setEditingId(ishchi.id);
@@ -76,7 +72,8 @@ const Personal = () => {
         <input type="text" name="name" placeholder="Ism" value={newIshchi.name} onChange={handleChange} />
         <input type="text" name="lavozim" placeholder="Lavozim" value={newIshchi.lavozim} onChange={handleChange} />
         <button onClick={handleSave} className="add-btn">
-          {editingId ? "💾 Saqlash" : "➕ Qo‘shish"}
+          {editingId ? <FaSave style={{ marginRight: "8px" }} /> : <FaPlus style={{ marginRight: "8px" }} />}
+          {editingId ? "Saqlash" : "Qo‘shish"}
         </button>
       </div>
 
@@ -97,9 +94,12 @@ const Personal = () => {
               <td>{ishchi.name}</td>
               <td>{ishchi.lavozim}</td>
               <td>
-                <button onClick={() => handleEdit(ishchi)} className="edit-btn">✏️</button>
-                <br />
-                <button onClick={() => handleDelete(ishchi.id)} className="delete-btn">🗑️</button>
+                <button onClick={() => handleEdit(ishchi)} className="edit-btn">
+                  <FaEdit />
+                </button>
+                <button onClick={() => handleDelete(ishchi.id)} className="delete-btn">
+                  <FaTrash />
+                </button>
               </td>
             </tr>
           ))}

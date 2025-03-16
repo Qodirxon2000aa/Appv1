@@ -10,6 +10,8 @@ import Calcu from "./components/calcu/calcu";
 import Money from "./components/money/money";
 import Loading from "./components/Loading-animation/loading";
 
+import Anim from './components/home/Animation/anim';
+
 function App() {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
@@ -24,7 +26,7 @@ function App() {
     <>
       {loading && <Loading />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dash />} />
         <Route path="/dashboard/personal" element={<Personal />} />
         <Route path="/dashboard/object" element={<Object />} />
@@ -32,6 +34,8 @@ function App() {
         <Route path="/view/order" element={<View />} />
         <Route path="/calcu" element={<Calcu />} />
         <Route path="/money" element={<Money />} />
+        <Route path="/" element={<Anim />} />
+
       </Routes>
     </>
   );

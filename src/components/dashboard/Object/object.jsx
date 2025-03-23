@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./object.css"; // Styling fayl
-import { FaSave, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { FaSave, FaPlus, FaEdit, FaTrash, FaTimes, FaPlusCircle } from "react-icons/fa";
 
 const API_URL = "https://66a6197023b29e17a1a1ba9a.mockapi.io/Object";
 
@@ -9,6 +9,8 @@ const Object = () => {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState({ name: "", zona: "", mablag: "" });
   const [editingId, setEditingId] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [additionalAmount, setAdditionalAmount] = useState("");
 
   useEffect(() => {
     fetchItems();
@@ -64,6 +66,28 @@ const Object = () => {
     setEditingId(item.id);
   };
 
+  const handleShowDetails = async (id) => {
+    try {
+      const response = await axios.get(`${API_URL}/${id}`);
+      setSelectedItem(response.data);
+    } catch (error) {
+      console.error("Ma'lumotlarni olishda xatolik:", error);
+    }
+  };
+
+  const handleAddAmount = async () => {
+    if (!selectedItem || !additionalAmount) return;
+    const newTotal = Number(selectedItem.mablag || 0) + Number(additionalAmount);
+    try {
+      await axios.put(`${API_URL}/${selectedItem.id}`, { mablag: newTotal });
+      setSelectedItem({ ...selectedItem, mablag: newTotal });
+      setAdditionalAmount("");
+      fetchItems();
+    } catch (error) {
+      console.error("Summani qo‘shishda xatolik:", error);
+    }
+  };
+
   return (
     <div className="container">
       <h1 className="title">Obyektlar</h1>
@@ -91,16 +115,16 @@ const Object = () => {
         </thead>
         <tbody>
           {items.map((item, index) => (
-            <tr key={item.id}>
+            <tr key={item.id} onClick={() => handleShowDetails(item.id)} style={{ cursor: "pointer" }}>
               <td>{index + 1}</td>
               <td>{item.name}</td>
               <td>{item.zona}</td>
               <td>{item.mablag}</td>
               <td>
-                <button className="edit-btn" onClick={() => handleEdit(item)}>
+                <button className="edit-btn" onClick={(e) => { e.stopPropagation(); handleEdit(item); }}>
                   <FaEdit />
                 </button>
-                <button className="delete-btn" onClick={() => handleDelete(item.id)}>
+                <button className="delete-btn" onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }}>
                   <FaTrash />
                 </button>
               </td>
@@ -108,6 +132,42 @@ const Object = () => {
           ))}
         </tbody>
       </table>
+
+      {selectedItem && (
+         <div className="modal">
+         <div className="modal-content">
+           <span className="close" onClick={() => setSelectedItem(null)}><FaTimes /></span>
+           <h2>{selectedItem.name} Ma’lumotlari</h2>
+           <table>
+             <tbody className="tablle" >
+               <tr>
+                 <td><strong>Zona:</strong></td>
+                 <td>{selectedItem.zona}</td>
+               </tr>
+               <tr>
+                 <td><strong>Mablag‘:</strong></td>
+                 <td>{selectedItem.mablag} UZS</td>
+               </tr>
+               <tr>
+                 <td><strong>Qo‘shilgan sana:</strong></td>
+                 <td>{selectedItem.createdAt}</td>
+               </tr>
+             </tbody>
+           </table>
+           <p>Qo‘shimcha mablag‘ qo‘shish:</p>
+           <input 
+             type="number" 
+             value={additionalAmount} 
+             onChange={(e) => setAdditionalAmount(e.target.value)} 
+             placeholder="Summani kiriting" 
+           />
+           <button onClick={handleAddAmount} className="save-btn">
+             <FaPlusCircle /> Qo‘shish
+           </button>
+         </div>
+       </div>
+
+      )}
     </div>
   );
 };

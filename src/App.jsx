@@ -8,7 +8,6 @@ import WorkType from "./components/dashboard/WorkType/WorkType";
 import View from "./components/view/order/order";
 import Calcu from "./components/calcu/calcu";
 import Money from "./components/money/money";
-import Loading from "./components/Loading-animation/loading";
 import Anim from "./components/login/login";
 import axios from "./api/axios";
 
@@ -37,7 +36,7 @@ function App() {
 
   return (
     <>
-      {loading && <Loading />}
+      
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dash />} />

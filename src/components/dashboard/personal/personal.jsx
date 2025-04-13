@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./workers.css";
-import { FaSave, FaPlus, FaEdit, FaTrash } from "react-icons/fa"; // React Icons
+import { FaSave, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
-const API_URL = "https://66a6197023b29e17a1a1ba9a.mockapi.io/Personal";
+const API_URL = "https://mexnatkashback.vercel.app/api/v1/workers";
 
 const Personal = () => {
   const [ishchilar, setIshchilar] = useState([]);
@@ -37,7 +37,7 @@ const Personal = () => {
     try {
       if (editingId) {
         await axios.put(`${API_URL}/${editingId}`, newIshchi);
-        setIshchilar(ishchilar.map((i) => (i.id === editingId ? { ...i, ...newIshchi } : i)));
+        setIshchilar(ishchilar.map((i) => (i._id === editingId ? { ...i, ...newIshchi } : i)));
         setEditingId(null);
       } else {
         const response = await axios.post(API_URL, newIshchi);
@@ -49,11 +49,11 @@ const Personal = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (_id) => {
     if (!window.confirm("Haqiqatan ham o‘chirmoqchimisiz?")) return;
     try {
-      await axios.delete(`${API_URL}/${id}`);
-      setIshchilar(ishchilar.filter((i) => i.id !== id));
+      await axios.delete(`${API_URL}/${_id}`);
+      setIshchilar(ishchilar.filter((i) => i._id !== _id));
     } catch (error) {
       console.error("O‘chirishda xatolik:", error);
     }
@@ -61,7 +61,7 @@ const Personal = () => {
 
   const handleEdit = (ishchi) => {
     setNewIshchi({ name: ishchi.name, lavozim: ishchi.lavozim });
-    setEditingId(ishchi.id);
+    setEditingId(ishchi._id);
   };
 
   return (
@@ -69,15 +69,26 @@ const Personal = () => {
       <h1 className="workers-title">Ishchilar Boshqaruvi</h1>
 
       <div className="workers-form">
-        <input type="text" name="name" placeholder="Ism" value={newIshchi.name} onChange={handleChange} />
-        <input type="text" name="lavozim" placeholder="Lavozim" value={newIshchi.lavozim} onChange={handleChange} />
+        <input
+          type="text"
+          name="name"
+          placeholder="Ism"
+          value={newIshchi.name}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="lavozim"
+          placeholder="Lavozim"
+          value={newIshchi.lavozim}
+          onChange={handleChange}
+        />
         <button onClick={handleSave} className="add-btn">
           {editingId ? <FaSave style={{ marginRight: "8px" }} /> : <FaPlus style={{ marginRight: "8px" }} />}
           {editingId ? "Saqlash" : "Qo‘shish"}
         </button>
       </div>
 
-      {/* Ishchilar ro‘yxati jadvali */}
       <table className="workers-table">
         <thead>
           <tr>
@@ -89,7 +100,7 @@ const Personal = () => {
         </thead>
         <tbody>
           {ishchilar.map((ishchi, index) => (
-            <tr key={ishchi.id}>
+            <tr key={ishchi._id}>
               <td>{index + 1}</td>
               <td>{ishchi.name}</td>
               <td>{ishchi.lavozim}</td>
@@ -97,7 +108,7 @@ const Personal = () => {
                 <button onClick={() => handleEdit(ishchi)} className="edit-btn">
                   <FaEdit />
                 </button>
-                <button onClick={() => handleDelete(ishchi.id)} className="delete-btn">
+                <button onClick={() => handleDelete(ishchi._id)} className="delete-btn">
                   <FaTrash />
                 </button>
               </td>

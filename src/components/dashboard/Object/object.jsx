@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./object.css"; // Styling fayl
-import { FaSave, FaPlus, FaEdit, FaTrash, FaTimes, FaPlusCircle } from "react-icons/fa";
+import "./object.css";
+import { FaSave, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
-const API_URL = "http://localhost:8000/api/v1/workplaces";
+const API_URL = "https://mexnatkashback.vercel.app/api/v1/workplaces";
 
 const Object = () => {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState({ name: "", location: "", price: "" });
   const [editingId, setEditingId] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [additionalAmount, setAdditionalAmount] = useState("");
 
   useEffect(() => {
     fetchItems();
@@ -39,7 +37,7 @@ const Object = () => {
     try {
       if (editingId) {
         await axios.patch(`${API_URL}/${editingId}`, newItem);
-        setItems(items.map((o) => (o.id === editingId ? { ...o, ...newItem } : o)));
+        setItems(items.map((o) => (o._id === editingId ? { ...o, ...newItem } : o)));
         setEditingId(null);
       } else {
         const response = await axios.post(API_URL, newItem);
@@ -51,11 +49,11 @@ const Object = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (_id) => {
     if (!window.confirm("Haqiqatan ham o‘chirmoqchimisiz?")) return;
     try {
-      await axios.delete(`${API_URL}/${id}`);
-      setItems(items.filter((o) => o.id !== id));
+      await axios.delete(`${API_URL}/${_id}`);
+      setItems(items.filter((o) => o._id !== _id));
     } catch (error) {
       console.error("O‘chirishda xatolik:", error);
     }
@@ -63,18 +61,36 @@ const Object = () => {
 
   const handleEdit = (item) => {
     setNewItem({ name: item.name, location: item.location, price: item.price });
-    setEditingId(item.id);
+    setEditingId(item._id);
   };
 
   return (
     <div className="container">
       <h1 className="title">Obyektlar</h1>
       <div className="form-container">
-        <input type="text" name="name" placeholder="Obyekt nomi" value={newItem.name} onChange={handleChange} />
-        <input type="text" name="location" placeholder="Hudud" value={newItem.location} onChange={handleChange} />
-        <input type="text" name="price" placeholder="Mablag‘ (UZS)" value={newItem.price} onChange={handleChange} />
+        <input
+          type="text"
+          name="name"
+          placeholder="Obyekt nomi"
+          value={newItem.name}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="location"
+          placeholder="Hudud"
+          value={newItem.location}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="price"
+          placeholder="Mablag‘ (UZS)"
+          value={newItem.price}
+          onChange={handleChange}
+        />
         <button onClick={handleSave} className="save-btn">
-          {editingId ? <FaSave style={{ marginRight: "8px" }} /> : <FaPlus style={{ marginRight: "8px" }} />} 
+          {editingId ? <FaSave style={{ marginRight: "8px" }} /> : <FaPlus style={{ marginRight: "8px" }} />}
           {editingId ? "Saqlash" : "Qo‘shish"}
         </button>
       </div>
@@ -90,7 +106,7 @@ const Object = () => {
         </thead>
         <tbody>
           {items.map((item, index) => (
-            <tr key={item.id}>
+            <tr key={item._id}>
               <td>{index + 1}</td>
               <td>{item.name}</td>
               <td>{item.location}</td>
@@ -99,7 +115,7 @@ const Object = () => {
                 <button className="edit-btn" onClick={() => handleEdit(item)}>
                   <FaEdit />
                 </button>
-                <button className="delete-btn" onClick={() => handleDelete(item.id)}>
+                <button className="delete-btn" onClick={() => handleDelete(item._id)}>
                   <FaTrash />
                 </button>
               </td>

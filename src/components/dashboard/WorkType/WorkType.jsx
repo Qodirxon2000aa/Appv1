@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./WorkType.css";
-import { FaPlus, FaEdit, FaTrash } from "react-icons/fa"; // React Icons
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
-const API_URL = "https://67bc973ced4861e07b3b2ccc.mockapi.io/Worker";
+const API_URL = "https://mexnatkashback.vercel.app/api/v1/worktypes";
 
 const WorkType = () => {
   const [workTypes, setWorkTypes] = useState([]);
@@ -26,26 +26,33 @@ const WorkType = () => {
 
     if (editingId) {
       axios.put(`${API_URL}/${editingId}`, newWorkType)
-        .then(() => {
-          setWorkTypes(workTypes.map(i => i.id === editingId ? { ...i, ...newWorkType } : i));
+        .then((res) => {
+          setWorkTypes(workTypes.map(i => i._id === editingId ? res.data : i));
           setEditingId(null);
-        });
+        })
+        .catch((err) => console.error("Tahrirlashda xatolik:", err));
     } else {
       axios.post(API_URL, newWorkType)
-        .then((response) => setWorkTypes([...workTypes, response.data]));
+        .then((response) => setWorkTypes([...workTypes, response.data]))
+        .catch((err) => console.error("Qo‘shishda xatolik:", err));
     }
     setNewWorkType({ name: "", price: "" });
   };
 
-  const deleteWorkType = (id) => {
-    axios.delete(`${API_URL}/${id}`)
-      .then(() => setWorkTypes(workTypes.filter(i => i.id !== id)));
+  const deleteWorkType = (_id) => {
+    if (!window.confirm("Haqiqatan ham o‘chirmoqchimisiz?")) return;
+
+    axios.delete(`${API_URL}/${_id}`)
+      .then(() => setWorkTypes(workTypes.filter(i => i._id !== _id)))
+      .catch((err) => console.error("O‘chirishda xatolik:", err));
   };
 
-  const editWorkType = (id) => {
-    const workType = workTypes.find(i => i.id === id);
-    setNewWorkType(workType);
-    setEditingId(id);
+  const editWorkType = (_id) => {
+    const workType = workTypes.find(i => i._id === _id);
+    if (workType) {
+      setNewWorkType({ name: workType.name, price: workType.price });
+      setEditingId(_id);
+    }
   };
 
   return (
@@ -72,15 +79,15 @@ const WorkType = () => {
         </thead>
         <tbody>
           {workTypes.map((workType, index) => (
-            <tr key={workType.id}>
+            <tr key={workType._id}>
               <td>{index + 1}</td>
               <td>{workType.name}</td>
               <td>{workType.price} UZS</td>
               <td>
-                <button className="edit-btn" onClick={() => editWorkType(workType.id)}>
+                <button className="edit-btn" onClick={() => editWorkType(workType._id)}>
                   <FaEdit />
                 </button>
-                <button className="delete-btn" onClick={() => deleteWorkType(workType.id)}>
+                <button className="delete-btn" onClick={() => deleteWorkType(workType._id)}>
                   <FaTrash />
                 </button>
               </td>
